@@ -1,4 +1,4 @@
-import { Client, Collection } from "discord.js";
+import { Client, Collection, SlashCommandBuilder, Routes } from "discord.js";
 import { join, dirname } from "path";
 import { fileURLToPath, pathToFileURL } from "url";
 import { readdirSync } from "fs";
@@ -20,6 +20,7 @@ class Wolf extends Client {
         await this.loadEvents();
         await this.loadCommands();
         await this.login(token);
+        await this.registerApplicationCommands();
 
         console.log(`Successfully logged in as ${this.user?.tag} (${this.user?.id})`);
     }
@@ -68,6 +69,33 @@ class Wolf extends Client {
             }
 
             console.log(`Loaded ${this.commands.size} commands`);
+    }
+
+    async registerApplicationCommands() {
+        const applicationCommands: SlashCommandBuilder[] = new Array();
+
+        for (const command of this.commands) {
+            const build: SlashCommandBuilder = new SlashCommandBuilder()
+                .setName(command[0])
+                .setDescription(command[1].description);
+
+            applicationCommands.push(build);
+        }
+
+        try {
+            await this.rest.put(
+                Routes.applicationCommands(
+                    this.user!.id
+                ),
+                {
+                    body: applicationCommands
+                }
+            );
+
+            console.log(`Successfully registered all application commands`);
+        } catch (error) {
+            console.error(`There was an error registering application commands:\n${error}`);
+        }
     }
 }
 
