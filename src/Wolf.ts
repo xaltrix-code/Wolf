@@ -1,18 +1,25 @@
-import { Client } from "discord.js";
+import { Client, Collection } from "discord.js";
 import { join, dirname } from "path";
 import { fileURLToPath, pathToFileURL } from "url";
 import { readdirSync } from "fs";
+import type Command from "./classes/Command.js";
 
 class Wolf extends Client {
+
+    commands: Collection<string, Command>;
+
     constructor() {
         super({
             intents: []
-        })
+        });
+
+        this.commands = new Collection();
     }
 
     async launch(token: string | undefined) {
-        await this.login(token);
         await this.loadEvents();
+        await this.loadCommands();
+        await this.login(token);
 
         console.log(`Successfully logged in as ${this.user?.tag} (${this.user?.id})`);
     }
@@ -39,6 +46,28 @@ class Wolf extends Client {
             }
 
             console.log(`Loaded ${count} events`);
+    }
+
+    async loadCommands() {
+        const __filname = fileURLToPath(import.meta.url);
+        const __dirname = dirname(__filname);
+
+        const commandsPath = join(__dirname, "commands");
+        const commandFiles = readdirSync(commandsPath)
+            .filter(file => file.endsWith(".js"));
+
+            for (const file of commandFiles) {
+                const filePath = join(commandsPath, file);
+
+                const { default: commandClass } = await import(pathToFileURL(filePath).href);
+                const commandName = file.split(".")[0];
+
+                
+                const command: Command = new commandClass();
+                this.commands.set(commandName!, command);
+            }
+
+            console.log(`Loaded ${this.commands.size} commands`);
     }
 }
 
