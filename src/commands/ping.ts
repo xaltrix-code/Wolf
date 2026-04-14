@@ -12,6 +12,24 @@ export default class Ping implements Command {
     }
 
     async execute(app: Wolf, interaction: CommandInteraction) {
+        const reply: EmbedBuilder = new EmbedBuilder()
+            .setTitle("🏓 Pong")
+            .setTimestamp(interaction.createdTimestamp)
+            .setColor(app.config.color)
+            .addFields([
+                {
+                    name: "Latency",
+                    value: `${app.ws.ping}ms`,
+                    inline: true
+                },
+                {
+                    name: "Uptime",
+                    value: `<t:${Math.round(app.readyTimestamp! / 1000 )}>`,
+                    inline: true
+                },
+            ]);
+
+            interaction.reply({ embeds: [reply] });
 
     }
 }

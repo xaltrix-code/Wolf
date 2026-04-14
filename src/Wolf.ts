@@ -2,10 +2,12 @@ import { Client, Collection, SlashCommandBuilder, Routes } from "discord.js";
 import { join, dirname } from "path";
 import { fileURLToPath, pathToFileURL } from "url";
 import { readdirSync } from "fs";
+import { config, type Config } from "../config.js";
 import type Command from "./classes/Command.js";
 
 class Wolf extends Client {
 
+    config: Config
     commands: Collection<string, Command>;
 
     constructor() {
@@ -13,6 +15,7 @@ class Wolf extends Client {
             intents: []
         });
 
+        this.config = config;
         this.commands = new Collection();
     }
 
