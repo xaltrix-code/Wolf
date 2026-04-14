@@ -1,0 +1,28 @@
+{
+  "name": "wolf",
+  "version": "1.0.0",
+  "description": "A Discord helper bot for Dank Memer used in the Wolf of Dank Street guild",
+  "homepage": "https://github.com/xaltrix-code/Wolf#readme",
+  "bugs": {
+    "url": "https://github.com/xaltrix-code/Wolf/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xaltrix-code/Wolf.git"
+  },
+  "license": "Apache-2.0",
+  "author": "XaltriX",
+  "type": "module",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \\\"Error: no test specified\\\" && exit 1"
+  },
+  "devDependencies": {
+    "@types/node": "^25.6.0",
+    "dotenv": "^17.4.2",
+    "typescript": "^6.0.2"
+  },
+  "dependencies": {
+    "discord.js": "^14.26.2"
+  }
+}
