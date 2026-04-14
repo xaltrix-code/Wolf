@@ -20,12 +20,10 @@ export default class Ping implements Command {
                 {
                     name: "Latency",
                     value: `${app.ws.ping}ms`,
-                    inline: true
                 },
                 {
                     name: "Uptime",
                     value: `<t:${Math.round(app.readyTimestamp! / 1000 )}>`,
-                    inline: true
                 },
             ]);
 

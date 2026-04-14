@@ -80,7 +80,8 @@ class Wolf extends Client {
         for (const command of this.commands) {
             const build: SlashCommandBuilder = new SlashCommandBuilder()
                 .setName(command[0])
-                .setDescription(command[1].description);
+                .setDescription(command[1].description)
+                .setContexts([0, 1, 2]);
 
             applicationCommands.push(build);
         }
